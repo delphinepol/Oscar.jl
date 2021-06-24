@@ -351,7 +351,7 @@ end
 ################################################################################
 
 @doc Markdown.doc"""
-    curve(P::Point_EllCurve)
+    curve(P::Point_EllCurve{S}) where S <: FieldElem
 
 Return the curve on which the point `P` is considered.
 """
@@ -600,7 +600,7 @@ end
 ################################################################################
 @doc Markdown.doc"""
     torsion_points_lutz_nagell(E::ProjEllipticCurve{fmpq})
-    
+
 Computes the rational torsion points of the elliptic curve `E` using the
 Lutz-Nagell theorem.
 """
