@@ -180,7 +180,7 @@ function curve_intersect(C::AffinePlaneCurve{S}, D::AffinePlaneCurve{S}) where S
         push!(Y, -f + gen(R, 2))
      end
   end
-     # For each y, we compute the possible values of x by replacing the second
+     # For each y, we compute the possible values of x by jldoctestacing the second
      # variable by the value y, and factorizing the resulting polynomial.
      for y in Y
         FF = evaluate(F, [gen(R, 1), y])

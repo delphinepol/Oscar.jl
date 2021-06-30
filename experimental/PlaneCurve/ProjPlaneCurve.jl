@@ -16,6 +16,32 @@ export issmooth, tangent, common_components, curve_intersect,
     issmooth(C::ProjectivePlaneCurve{S}, P::Oscar.Geometry.ProjSpcElem{S}) where S <: FieldElem
 
 Throw an error if `P` is not a point of `C`, return `false` if `P` is a singular point of `C`, and `true` if `P` is a smooth point of `C`.
+
+# Example
+```repl
+julia> S, (x, y, z) = PolynomialRing(QQ, ["x", "y", "z"])
+(Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
+
+julia> T = grade(S)
+Multivariate Polynomial Ring in x, y, z over Rational Field graded by
+        x -> [1]
+        y -> [1]
+        z -> [1]
+
+julia> C = Oscar.ProjPlaneCurve(x^2*(x+y)*(y^3-x^2*z))
+Projective plane curve defined by -x^5*z - x^4*y*z + x^3*y^3 + x^2*y^4
+
+
+julia> PP = projective_space(QQ, 2)
+(Projective space of dim 2 over Rational Field
+, Oscar.MPolyElem_dec{fmpq}[x0, x1, x2])
+
+julia> P = Oscar.Geometry.ProjSpcElem(PP[1], [QQ(0), QQ(0), QQ(1)])
+(0 : 0 : 1)
+
+julia> Oscar.issmooth(C, P)
+false
+```
 """
 function Oscar.issmooth(C::ProjectivePlaneCurve{S}, P::Oscar.Geometry.ProjSpcElem{S}) where S <: FieldElem
   dim(P.parent) == 2 || error("The point needs to be in a projective two dimensional space")
@@ -36,6 +62,33 @@ end
     tangent(C::ProjectivePlaneCurve{S}, P::Oscar.Geometry.ProjSpcElem{S}) where S <: FieldElem
 
 Return the tangent of `C` at `P` when `P` is a smooth point of `C`, and throw an error otherwise.
+
+# Example
+```repl
+julia> S, (x, y, z) = PolynomialRing(QQ, ["x", "y","z"])
+(Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
+
+julia> T = grade(S)
+Multivariate Polynomial Ring in x, y, z over Rational Field graded by
+        x -> [1]
+        y -> [1]
+        z -> [1]
+
+julia> PP = projective_space(QQ, 2)
+(Projective space of dim 2 over Rational Field
+, Oscar.MPolyElem_dec{fmpq}[x0, x1, x2])
+
+
+julia> C = Oscar.ProjPlaneCurve(x^2*(x+y)*(y^3-x^2*z))
+Projective plane curve defined by -x^5*z - x^4*y*z + x^3*y^3 + x^2*y^4
+
+
+julia> P = Oscar.Geometry.ProjSpcElem(PP[1], [QQ(2), QQ(-2), QQ(1)])
+(2 : -2 : 1)
+
+julia> Oscar.tangent(C, P)
+Projective plane curve defined by -48*x - 48*y
+```
 """
 function tangent(C::ProjectivePlaneCurve{S}, P::Oscar.Geometry.ProjSpcElem{S}) where S <: FieldElem
   dim(P.parent) == 2 || error("The point needs to be in a projective two dimensional space")

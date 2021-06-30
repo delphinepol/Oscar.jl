@@ -20,12 +20,13 @@ abstract type ProjectivePlaneCurve{S} <: PlaneCurve{S} end
 @doc Markdown.doc"""
     Point(coordinates::Array{S, 1}) where {S <: FieldElem}
 
-Return the point with coordinates `coordinates`.
+Return the point with the given coordinates.
 
 # Examples
-```jldoctest
+```repl
 P = Oscar.Point([QQ(1), QQ(2), QQ(2)])
-Point with coordinates fmpq[1, 2, 2]```
+Point with coordinates fmpq[1, 2, 2]
+```
 """
 mutable struct Point{S <: FieldElem}
   coord::Vector{S}
@@ -128,6 +129,24 @@ end
     ProjPlaneCurve{S}(eq::Oscar.MPolyElem_dec{S}) where {S <: FieldElem}
 
 Return the Projective Plane Curve defined by the homogeneous polynomial in three variables `eq`.
+
+# Example
+```repl
+julia> R, (x,y,z) = PolynomialRing(QQ, ["x", "y", "z"])
+(Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
+
+julia> T = grade(R)
+Multivariate Polynomial Ring in x, y, z over Rational Field graded by
+        x -> [1]
+        y -> [1]
+        z -> [1]
+
+julia> F = T(y^3*x^6 - y^6*x^2*z)
+x^6*y^3 - x^2*y^6*z
+
+julia> Oscar.ProjPlaneCurve(F)
+Projective plane curve defined by x^6*y^3 - x^2*y^6*z
+```
 """
 mutable struct ProjPlaneCurve{S} <: ProjectivePlaneCurve{S}
   eq::Oscar.MPolyElem_dec{S}            # Equation of the curve (polynomial in three variables)
@@ -189,22 +208,9 @@ end
 
 ################################################################################
 @doc Markdown.doc"""
-    in(P::Point{S}, C::AffinePlaneCurve{S})
+    in(P::Point{S}, C::AffinePlaneCurve{S}) where S <: FieldElem
 
 Return `true` if the point `P` is on the curve `C`, and `false` otherwise.
-
-# Example
-```@jldoctest
-julia> C = Oscar.AffinePlaneCurve(y^3*x^6 - y^6*x^2)
-Affine plane curve defined by x^6*y^3 - x^2*y^6
-
-
-julia> P = Oscar.Point([QQ(1), QQ(1)])
-Point with coordinates fmpq[1, 1]
-
-
-julia> P in C
-true
 ```
 """
 function Base.in(P::Point{S}, C::AffinePlaneCurve{S}) where S <: FieldElem
@@ -217,7 +223,7 @@ end
 Return `true` if the point `P` is on the curve `C`, and `false` otherwise.
 
 # Examples
-```jldoctest
+```repl
 julia> S, (x,y,z) = PolynomialRing(QQ, ["x", "y", "z"])
 (Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
 

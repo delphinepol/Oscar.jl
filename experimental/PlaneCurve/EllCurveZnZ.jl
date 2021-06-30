@@ -158,6 +158,39 @@ end
     sum_Point_EllCurveZnZ(P::Point_EllCurve{S}, Q::Point_EllCurve{S}) where S <: Nemo.fmpz_mod
 
 Return, if possible, the sum of the points `P` and `Q`, and an error otherwise.
+
+# Example
+```repl
+julia> A = ResidueRing(ZZ, ZZ(4453))
+Integers modulo 4453
+
+julia> S, (x, y, z) = PolynomialRing(A, ["x", "y", "z"])
+(Multivariate Polynomial Ring in x, y, z over Integers modulo 4453, AbstractAlgebra.Generic.MPoly{fmpz_mod}[x, y, z])
+
+julia> T = grade(S)
+Multivariate Polynomial Ring in x, y, z over Integers modulo 4453 graded by
+        x -> [1]
+        y -> [1]
+        z -> [1]
+
+julia> F = T(y^2*z - x^3 - 10*x*z^2 + 2*z^3)
+4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
+
+julia> E = Oscar.ProjEllipticCurve(F)
+Projective elliptic curve defined by 4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
+
+
+julia> PP = projective_space(A, 2)
+(Projective space of dim 2 over Integers modulo 4453
+, Oscar.MPolyElem_dec{fmpz_mod}[x0, x1, x2])
+
+julia> P = Oscar.Point_EllCurve(E, Oscar.Geometry.ProjSpcElem(PP[1], [A(1), A(3), A(1)]))
+(1 : 3 : 1)
+
+
+julia> Oscar.sum_Point_EllCurveZnZ(P, P)
+(4332 : 3230 : 1)
+```
 """
 function sum_Point_EllCurveZnZ(P::Point_EllCurve{S}, Q::Point_EllCurve{S}) where S <: Nemo.fmpz_mod
    A = P.Pt[1].parent
@@ -177,6 +210,32 @@ end
     IntMult_Point_EllCurveZnZ(m::fmpz, P::Point_EllCurve{S}) where S <: Nemo.fmpz_mod
 
 Return, if possible, the point `mP`, and an error otherwise.
+
+# Example
+```repl
+julia> S, (x, y, z) = PolynomialRing(A, ["x", "y", "z"])
+(Multivariate Polynomial Ring in x, y, z over Integers modulo 4453, AbstractAlgebra.Generic.MPoly{fmpz_mod}[x, y, z])
+
+julia> T = grade(S)
+Multivariate Polynomial Ring in x, y, z over Integers modulo 4453 graded by
+        x -> [1]
+        y -> [1]
+        z -> [1]
+
+julia> F = T(y^2*z - x^3 - 10*x*z^2 + 2*z^3)
+4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
+
+julia> E = Oscar.ProjEllipticCurve(F)
+Projective elliptic curve defined by 4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
+
+
+julia> PP = projective_space(A, 2)
+(Projective space of dim 2 over Integers modulo 4453
+, Oscar.MPolyElem_dec{fmpz_mod}[x0, x1, x2])
+
+julia> P = Oscar.Point_EllCurve(E, Oscar.Geometry.ProjSpcElem(PP[1], [A(1), A(3), A(1)]))
+(1 : 3 : 1)
+```
 """
 function IntMult_Point_EllCurveZnZ(m::fmpz, P::Point_EllCurve{S}) where S <: Nemo.fmpz_mod
    E = P.C
