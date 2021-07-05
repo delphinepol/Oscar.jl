@@ -160,7 +160,7 @@ end
 Return, if possible, the sum of the points `P` and `Q`, and an error otherwise.
 
 # Example
-```repl
+```jldoctest
 julia> A = ResidueRing(ZZ, ZZ(4453))
 Integers modulo 4453
 
@@ -168,10 +168,10 @@ julia> S, (x, y, z) = PolynomialRing(A, ["x", "y", "z"])
 (Multivariate Polynomial Ring in x, y, z over Integers modulo 4453, AbstractAlgebra.Generic.MPoly{fmpz_mod}[x, y, z])
 
 julia> T, _ = grade(S)
-Multivariate Polynomial Ring in x, y, z over Integers modulo 4453 graded by
-        x -> [1]
-        y -> [1]
-        z -> [1]
+(Multivariate Polynomial Ring in x, y, z over Integers modulo 4453 graded by
+  x -> [1]
+  y -> [1]
+  z -> [1], MPolyElem_dec{fmpz_mod,AbstractAlgebra.Generic.MPoly{fmpz_mod}}[x, y, z])
 
 julia> F = T(y^2*z - x^3 - 10*x*z^2 + 2*z^3)
 4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
@@ -182,7 +182,7 @@ Projective elliptic curve defined by 4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
 
 julia> PP = projective_space(A, 2)
 (Projective space of dim 2 over Integers modulo 4453
-, Oscar.MPolyElem_dec{fmpz_mod}[x0, x1, x2])
+, MPolyElem_dec{fmpz_mod,AbstractAlgebra.Generic.MPoly{fmpz_mod}}[x[0], x[1], x[2]])
 
 julia> P = Oscar.Point_EllCurve(E, Oscar.Geometry.ProjSpcElem(PP[1], [A(1), A(3), A(1)]))
 (1 : 3 : 1)
@@ -212,15 +212,18 @@ end
 Return, if possible, the point `mP`, and an error otherwise.
 
 # Example
-```repl
+```jldoctest
+julia> A = ResidueRing(ZZ, ZZ(4453))
+Integers modulo 4453
+
 julia> S, (x, y, z) = PolynomialRing(A, ["x", "y", "z"])
 (Multivariate Polynomial Ring in x, y, z over Integers modulo 4453, AbstractAlgebra.Generic.MPoly{fmpz_mod}[x, y, z])
 
 julia> T, _ = grade(S)
-Multivariate Polynomial Ring in x, y, z over Integers modulo 4453 graded by
-        x -> [1]
-        y -> [1]
-        z -> [1]
+(Multivariate Polynomial Ring in x, y, z over Integers modulo 4453 graded by
+  x -> [1]
+  y -> [1]
+  z -> [1], MPolyElem_dec{fmpz_mod,AbstractAlgebra.Generic.MPoly{fmpz_mod}}[x, y, z])
 
 julia> F = T(y^2*z - x^3 - 10*x*z^2 + 2*z^3)
 4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
@@ -231,10 +234,14 @@ Projective elliptic curve defined by 4452*x^3 + 4443*x*z^2 + y^2*z + 2*z^3
 
 julia> PP = projective_space(A, 2)
 (Projective space of dim 2 over Integers modulo 4453
-, Oscar.MPolyElem_dec{fmpz_mod}[x0, x1, x2])
+, MPolyElem_dec{fmpz_mod,AbstractAlgebra.Generic.MPoly{fmpz_mod}}[x[0], x[1], x[2]])
 
 julia> P = Oscar.Point_EllCurve(E, Oscar.Geometry.ProjSpcElem(PP[1], [A(1), A(3), A(1)]))
 (1 : 3 : 1)
+
+
+julia> Oscar.IntMult_Point_EllCurveZnZ(ZZ(2), P)
+(4332 : 3230 : 1)
 ```
 """
 function IntMult_Point_EllCurveZnZ(m::fmpz, P::Point_EllCurve{S}) where S <: Nemo.fmpz_mod

@@ -142,28 +142,29 @@ infinity point. If no point is specified it is expected that `eq` is in
 Weierstrass form, and the infinity point is `(0:1:0)`.
 
 # Example
-```repl
+```jldoctest
 julia> S, (x, y, z) = PolynomialRing(QQ, ["x", "y", "z"])
 (Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
 
 julia> T, _ = grade(S)
-Multivariate Polynomial Ring in x, y, z over Rational Field graded by
-        x -> [1]
-        y -> [1]
-        z -> [1]
+(Multivariate Polynomial Ring in x, y, z over Rational Field graded by
+  x -> [1]
+  y -> [1]
+  z -> [1], MPolyElem_dec{fmpq,fmpq_mpoly}[x, y, z])
 
 julia> F = T(-x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3)
 -x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3
 
 julia> PP = projective_space(QQ, 2)
 (Projective space of dim 2 over Rational Field
-, Oscar.MPolyElem_dec{fmpq}[x0, x1, x2])
+, MPolyElem_dec{fmpq,fmpq_mpoly}[x[0], x[1], x[2]])
 
 julia> P = Oscar.Geometry.ProjSpcElem(PP[1], [QQ(-1), QQ(1), QQ(0)])
 (-1 : 1 : 0)
 
 julia> E = Oscar.ProjEllipticCurve(F, P)
 Projective elliptic curve defined by -x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3
+
 
 julia> Oscar.ProjEllipticCurve(T(y^2*z - x^3 - x*z^2))
 Projective elliptic curve defined by -x^3 - x*z^2 + y^2*z
@@ -261,27 +262,27 @@ Return the equation of a projective elliptic curve defined by an equation in
 Weierstrass form and which is linearly equivalent to `E`.
 
 # Example
-```repl
+```jldoctest
 julia> S, (x, y, z) = PolynomialRing(QQ, ["x", "y", "z"])
 (Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
 
 julia> T, _ = grade(S)
-Multivariate Polynomial Ring in x, y, z over Rational Field graded by
-        x -> [1]
-        y -> [1]
-        z -> [1]
+(Multivariate Polynomial Ring in x, y, z over Rational Field graded by
+  x -> [1]
+  y -> [1]
+  z -> [1], MPolyElem_dec{fmpq,fmpq_mpoly}[x, y, z])
 
 julia> F = T(-x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3)
 -x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3
 
 julia> PP = projective_space(QQ, 2)
 (Projective space of dim 2 over Rational Field
-, Oscar.MPolyElem_dec{fmpq}[x0, x1, x2])
+, MPolyElem_dec{fmpq,fmpq_mpoly}[x[0], x[1], x[2]])
 
-julia> P1 = Oscar.Geometry.ProjSpcElem(PP[1], [QQ(-1), QQ(1), QQ(0)])
+julia> P = Oscar.Geometry.ProjSpcElem(PP[1], [QQ(-1), QQ(1), QQ(0)])
 (-1 : 1 : 0)
 
-julia> E = Oscar.ProjEllipticCurve(F, P1)
+julia> E = Oscar.ProjEllipticCurve(F, P)
 Projective elliptic curve defined by -x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3
 
 
@@ -345,22 +346,25 @@ end
 Create the point `P` on the elliptic curve `E`.
 
 # Example
-```repl
+```jldoctest
 julia> S, (x, y, z) = PolynomialRing(QQ, ["x", "y", "z"])
 (Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
 
 julia> T, _ = grade(S)
-Multivariate Polynomial Ring in x, y, z over Rational Field graded by
-        x -> [1]
-        y -> [1]
-        z -> [1]
+(Multivariate Polynomial Ring in x, y, z over Rational Field graded by
+  x -> [1]
+  y -> [1]
+  z -> [1], MPolyElem_dec{fmpq,fmpq_mpoly}[x, y, z])
 
 julia> F = T(-x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3)
 -x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3
 
 julia> PP = projective_space(QQ, 2)
 (Projective space of dim 2 over Rational Field
-, Oscar.MPolyElem_dec{fmpq}[x0, x1, x2])
+, MPolyElem_dec{fmpq,fmpq_mpoly}[x[0], x[1], x[2]])
+
+julia> P1 = Oscar.Geometry.ProjSpcElem(PP[1], [QQ(-1), QQ(1), QQ(0)])
+(-1 : 1 : 0)
 
 julia> E = Oscar.ProjEllipticCurve(F, P1)
 Projective elliptic curve defined by -x^3 - 3*x^2*y - 3*x*y^2 - x*z^2 - y^3 + y^2*z - y*z^2 - 4*z^3
@@ -557,19 +561,19 @@ return an elliptic curve birationally equivalent to `C` given by an equation in
 long Weierstrass form.
 
 # Example
-```repl
+```jldoctest
 julia> S, (x, y, z) = PolynomialRing(QQ, ["x", "y", "z"])
 (Multivariate Polynomial Ring in x, y, z over Rational Field, fmpq_mpoly[x, y, z])
 
 julia> T, _ = grade(S)
-Multivariate Polynomial Ring in x, y, z over Rational Field graded by
-        x -> [1]
-        y -> [1]
-        z -> [1]
+(Multivariate Polynomial Ring in x, y, z over Rational Field graded by
+  x -> [1]
+  y -> [1]
+  z -> [1], MPolyElem_dec{fmpq,fmpq_mpoly}[x, y, z])
 
 julia> PP = projective_space(QQ, 2)
 (Projective space of dim 2 over Rational Field
-, Oscar.MPolyElem_dec{fmpq}[x0, x1, x2])
+, MPolyElem_dec{fmpq,fmpq_mpoly}[x[0], x[1], x[2]])
 
 julia> Q = Oscar.Geometry.ProjSpcElem(PP[1], [QQ(-1), QQ(1), QQ(0)])
 (-1 : 1 : 0)
